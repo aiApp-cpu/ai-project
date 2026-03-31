@@ -38,7 +38,7 @@ public class AiService {
             headers.setBearerAuth(apiKey);
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            String model = "Qwen/Qwen2.5-7B-Instruct";
+            String model = "Qwen/Qwen2.5-Coder-7B-Instruct";
 
             String jsonBody = """
             {
