@@ -2,18 +2,22 @@ package com.example.aiassistant.app.service;
 
 import com.example.aiassistant.app.model.NotesRequest;
 import com.example.aiassistant.app.model.NotesResponse;
+import com.example.aiassistant.app.model.HfChatResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.example.aiassistant.app.model.HfChatResponse;
+
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @Service
 public class AiService {
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public AiService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -24,8 +28,6 @@ public class AiService {
 
     @Value("${hf.api.url}")
     private String apiUrl;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public NotesResponse generateNotes(NotesRequest request) {
 
@@ -38,26 +40,21 @@ public class AiService {
             headers.setBearerAuth(apiKey);
             headers.setContentType(MediaType.APPLICATION_JSON);
 
-            String model = "Qwen/Qwen2.5-Coder-7B-Instruct";
+            // 1. Build Payload using Map (Very Safe)
+            Map<String, Object> payload = new HashMap<>();
+            payload.put("model", "Qwen/Qwen2.5-Coder-7B-Instruct");
+            
+            payload.put("messages", List.of(
+                Map.of("role", "system", "content", "You are a helpful AI assistant. Answer in clear English."),
+                Map.of("role", "user", "content", request.getInput())
+            ));
+            
+            payload.put("temperature", 0.7);
+            payload.put("max_tokens", 800);
+            payload.put("stream", false);
 
-            String jsonBody = """
-            {
-              "model": "%s",
-              "messages": [
-                {
-                  "role": "system",
-                  "content": "You are a helpful AI assistant. Always answer in clear and natural English language only. Do not use Chinese, Hindi, or any other language."
-                },
-                {
-                  "role": "user",
-                  "content": "%s"
-                }
-              ],
-              "temperature": 0.7,
-              "max_tokens": 800,
-              "stream": false
-            }
-            """.formatted(model, request.getInput().replace("\"", "\\\""));
+            // 2. Convert Map to JSON String automatically
+            String jsonBody = objectMapper.writeValueAsString(payload);
 
             HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
 
@@ -68,22 +65,19 @@ public class AiService {
                     String.class
             );
 
-            String rawJson = responseEntity.getBody();
+            // 3. Parse Response
+            HfChatResponse hfResponse = objectMapper.readValue(responseEntity.getBody(), HfChatResponse.class);
 
-            // Parse with HfChatResponse (the class you already created)
-            HfChatResponse hfResponse = objectMapper.readValue(rawJson, HfChatResponse.class);
-
-            String content = "No content received.";
             if (hfResponse.getChoices() != null && !hfResponse.getChoices().isEmpty()) {
-                var msg = hfResponse.getChoices().get(0).getMessage();
-                if (msg != null && msg.getContent() != null) {
-                    content = msg.getContent().trim();
-                }
+                String content = hfResponse.getChoices().get(0).getMessage().getContent();
+                return new NotesResponse(content != null ? content.trim() : "No content.");
             }
 
-            return new NotesResponse(content);
+            return new NotesResponse("No content received from AI.");
 
         } catch (Exception e) {
+            // Logs mein error print karein taaki Railway logs mein dikhe
+            System.err.println("AI Service Error: " + e.getMessage());
             return new NotesResponse("Error: " + e.getMessage());
         }
     }
