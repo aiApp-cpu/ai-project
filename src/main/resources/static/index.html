@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Notes Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ✅ DESKTOP SEARCH (NEW) -->
+<div class="desktop-header">
+    <input type="text" id="desktopSearch" placeholder="Search notes...">
+</div>
+
+<!-- MOBILE HEADER -->
+<div class="mobile-header">
+    <button id="menuBtn">☰</button>
+    <input type="text" id="mobileSearch" placeholder="Search notes...">
+</div>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>AI Notes</h2>
+        <div class="history"></div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <div class="center-box">
+
+            <div class="glow"></div>
+
+            <h1>AI Notes Generator</h1>
+            <p class="subtitle">Transform long text into smart notes</p>
+
+            <textarea id="inputText" placeholder="Paste your content here..."></textarea>
+
+            <div class="actions">
+                <button id="generateBtn">⚡ Generate</button>
+                <button id="copyBtn">📋 Copy</button>
+            </div>
+
+            <div id="loading">Generating notes...</div>
+
+            <div id="output"></div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

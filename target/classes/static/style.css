@@ -1,0 +1,268 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: #0b1120;
+  color: #e5e7eb;
+}
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.item-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+
+.item-actions button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+/* ================= DESKTOP SEARCH BAR ================= */
+.desktop-header {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  background: #020617;
+  border-bottom: 1px solid #1f2937;
+}
+
+.desktop-header input {
+  width: 400px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #111827;
+  color: white;
+  outline: none;
+}
+
+/* SHOW ONLY ON DESKTOP */
+@media (max-width: 768px) {
+  .desktop-header {
+    display: none;
+  }
+}
+
+/* HIDE MOBILE HEADER ON PC */
+@media (min-width: 769px) {
+  .mobile-header {
+    display: none !important;
+  }
+}
+/* MOBILE HEADER */
+.mobile-header {
+  display: none;
+}
+
+/* Layout */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  background: #020617;
+  padding: 20px;
+  border-right: 1px solid #1f2937;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin-bottom: 15px;
+}
+
+.history {
+  flex: 1;
+}
+
+/* HISTORY ITEMS */
+.item {
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #111827;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: #1f2937;
+}
+
+.item button {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.item button:hover {
+  color: white;
+}
+
+/* MAIN */
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 0;
+  overflow-y: auto;
+}
+
+/* CENTER BOX */
+.center-box {
+  width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+/* GLOW */
+.glow {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(56,189,248,0.4), transparent);
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: blur(60px);
+}
+
+/* TEXT */
+h1 {
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+
+/* INPUT */
+textarea {
+  width: 100%;
+  height: 130px;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+  background: #020617;
+  color: white;
+  padding: 12px;
+}
+
+/* BUTTONS */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+#generateBtn {
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+  color: white;
+}
+
+#copyBtn {
+  background: #111827;
+  color: white;
+}
+
+/* OUTPUT */
+#output {
+  margin-top: 15px;
+  background: #020617;
+  padding: 15px;
+  border-radius: 10px;
+  min-height: 120px;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+/* LOADING */
+#loading {
+  display: none;
+  margin-top: 10px;
+  color: #38bdf8;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+
+  .mobile-header {
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #020617;
+    padding: 10px;
+    gap: 10px;
+    z-index: 1000;
+  }
+
+  .mobile-header input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    background: #111827;
+    color: white;
+  }
+
+  .mobile-header button {
+    background: #111827;
+    color: white;
+    border: none;
+    padding: 8px;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    height: 100%;
+    width: 220px;
+    transform: translateX(-100%);
+    transition: 0.3s;
+    z-index: 999;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main {
+    padding-top: 70px;
+  }
+
+  .center-box {
+    width: 95%;
+  }
+}
