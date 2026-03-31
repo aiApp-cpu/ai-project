@@ -101,7 +101,7 @@ async function generateNotes() {
   loading.style.display = "block";
 
   try {
-    const res = await fetch("http://localhost:8080/api/notes", {
+    const res = await fetch("https://ai-project-production-6ec9.up.railway.app/api/notes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
