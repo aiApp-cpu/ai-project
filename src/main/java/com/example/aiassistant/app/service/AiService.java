@@ -23,8 +23,8 @@ public class AiService {
         this.restTemplate = restTemplate;
     }
 
-    @Value("${hf.api.key}")
-    private String apiKey;
+@Value("${hf.api.key}")
+private String hfApiKey;
 
     @Value("${hf.api.url}")
     private String apiUrl;
