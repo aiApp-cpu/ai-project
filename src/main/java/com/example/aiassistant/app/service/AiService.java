@@ -31,6 +31,8 @@ public class AiService {
 
     public NotesResponse generateNotes(NotesRequest request) {
 
+        System.out.println("API KEY: " + hfApiKey);
+
         if (request == null || request.getInput() == null || request.getInput().trim().isEmpty()) {
             return new NotesResponse("Please provide some input.");
         }
