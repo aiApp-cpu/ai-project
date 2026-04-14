@@ -39,7 +39,7 @@ private String hfApiKey;
 
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.setBearerAuth(apiKey);
+            headers.setBearerAuth(hfApiKey); 
             headers.setContentType(MediaType.APPLICATION_JSON);
 
             // 1. Build Payload using Map (Very Safe)
